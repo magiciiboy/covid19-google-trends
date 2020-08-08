@@ -1,0 +1,7 @@
+Country,State,Abbrev,ClosedFrom,ClosedTo,ExtendedClosedTo,OrderType
+US,Arizona,AZ,2020/03/31,2020/04/30,2020/05/15,Stay-at-home
+US,Florida,FL,2020/04/02,2020/05/04,,Stay-at-home
+US,Kansas,KS,2020/03/30,2020/05/03,,Stay-at-home
+US,Maine,ME,2020/04/02,2020/05/31,,Stay-at-home
+US,South Carolina,SC,2020/04/06,2020/05/04,,Home or work
+US,Washington State,WA,2020/03/23,2020/05/04,,Stay-at-home
