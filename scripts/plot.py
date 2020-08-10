@@ -10,18 +10,18 @@ def plot_covid19_cases(df_all, country="US", level="state", start_date=None, end
     places_keys = sorted(places.keys())
     places_names = [places[k]["State"] for k in places]
 
-    df_all = df_all[(df_all["country"]==country) & (df_all["state"].isin(places_names))]
+    df_all = df_all[(df_all["Country_Region"]==country) & (df_all["Province_State"].isin(places_names))]
     if start_date:
-        df_all = df_all[df_all["date"] >= start_date]
+        df_all = df_all[df_all["Date"] >= start_date]
     if end_date:
-        df_all = df_all[df_all["date"] <= end_date]
+        df_all = df_all[df_all["Date"] <= end_date]
 
     n_places = len(places_keys)
     n_cols = 1
     n_rows = int(n_places / n_cols) + (1 if n_places % n_cols else 0)
-    max_cases = df_all['cases'].max()
-    min_date = df_all['date'].min()
-    max_date = df_all['date'].max()
+    max_cases = df_all['Confirmed'].max()
+    min_date = df_all['Date'].min()
+    max_date = df_all['Date'].max()
 
     # Initialize figure with subplots
     subplot_titles = [f"<b>{places[k]['State']}</b><br>Population={places[k]['Population']:,}" for k in places]
@@ -40,11 +40,12 @@ def plot_covid19_cases(df_all, country="US", level="state", start_date=None, end
         row = int(idx / n_cols) + 1
         col = idx % n_cols + 1
 
-        df = df_all[df_all["state"] == place_name]
+        df = df_all[df_all["Province_State"] == place_name]
         # Process
-        df_before = df[(df["date"] < close_date)]
-        df_after = df[(df["date"] >= close_date)]
-        close_date_cases = df[df["date"]==close_date]["cases"].unique()[0]
+        df_before = df[(df["Date"] < close_date)]
+        df_after = df[(df["Date"] >= close_date)]
+        close_date_data = df[df["Date"]==close_date]["Confirmed"].unique()
+        close_date_cases = close_date_date[0] if close_date_data else 0
 
         # Horizontal line
         shape_close_date_line = go.layout.Shape(**{"type": "line",
@@ -71,16 +72,28 @@ def plot_covid19_cases(df_all, country="US", level="state", start_date=None, end
         fig.add_annotation(open_date_cases_anno, row=row, col=col)
 
         # Plot
-        subplot_before = go.Scatter(x=df_before["date"], y=df_before["cases"], 
+        subplot_confirmed_before = go.Scatter(x=df_before["Date"], y=df_before["Confirmed"], 
                             mode="lines",
                             line=dict(width=1, color=config.LINE_COLOR_BEFORE), 
                             line_shape="linear") # linear or spline 
-        subplot_after = go.Scatter(x=df_after["date"], y=df_after["cases"], 
+        subplot_confirmed_after = go.Scatter(x=df_after["Date"], y=df_after["Confirmed"], 
                             mode="lines",
                             line=dict(width=1.5, color=config.LINE_COLOR_AFTER), 
                             line_shape="linear") # linear or spline 
-        fig.add_trace(subplot_before, row=row, col=col)
-        fig.add_trace(subplot_after, row=row, col=col)
+        
+        subplot_active_before = go.Scatter(x=df_before["Date"], y=df_before["Active"], 
+                            mode="lines",
+                            line=dict(width=1, color=config.LINE_COLOR_ACTIVE_BEFORE), 
+                            line_shape="linear") # linear or spline 
+        subplot_active_after = go.Scatter(x=df_after["Date"], y=df_after["Active"], 
+                            mode="lines",
+                            line=dict(width=1.5, color=config.LINE_COLOR_ACTIVE_AFTER), 
+                            line_shape="linear") # linear or spline 
+
+        fig.add_trace(subplot_confirmed_before, row=row, col=col)
+        fig.add_trace(subplot_confirmed_after, row=row, col=col)
+        fig.add_trace(subplot_active_before, row=row, col=col)
+        fig.add_trace(subplot_active_after, row=row, col=col)
 
     # Layout
     fig.update_layout(title={"text": "COVID19 - %s" % (country), "x":0.5, "xanchor": "center"}, 
