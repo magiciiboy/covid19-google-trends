@@ -19,9 +19,9 @@ def plot_covid19_cases(df_all, country="US", level="state", start_date=None, end
     n_places = len(places_keys)
     n_cols = 1
     n_rows = int(n_places / n_cols) + (1 if n_places % n_cols else 0)
-    max_cases = df_all['Confirmed'].max()
-    min_date = df_all['Date'].min()
-    max_date = df_all['Date'].max()
+    max_cases = df_all["Confirmed"].max()
+    min_date = df_all["Date"].min()
+    max_date = df_all["Date"].max()
 
     # Initialize figure with subplots
     subplot_titles = [f"<b>{places[k]['State']}</b><br>Population={places[k]['Population']:,}" for k in places]
@@ -45,7 +45,7 @@ def plot_covid19_cases(df_all, country="US", level="state", start_date=None, end
         df_before = df[(df["Date"] < close_date)]
         df_after = df[(df["Date"] >= close_date)]
         close_date_data = df[df["Date"]==close_date]["Confirmed"].unique()
-        close_date_cases = close_date_date[0] if close_date_data else 0
+        close_date_cases = close_date_data[0] if close_date_data else 0
 
         # Horizontal line
         shape_close_date_line = go.layout.Shape(**{"type": "line",

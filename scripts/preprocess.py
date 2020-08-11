@@ -3,10 +3,12 @@ import pandas as pd
 import config
 from os import listdir
 
+OUTPUT_FILE = "UTD.csv"
+
 def union_CSSE_covid19_data_US():
-    print('Joining CSSE COVID19 data ...')
+    print("Joining CSSE COVID19 data ...")
     data_dir = config.COVID19_CSSE_DATA_DIR
-    files = [f for f in listdir(data_dir) if os.path.isfile(os.path.join(data_dir, f)) and '.csv' in f]
+    files = [f for f in listdir(data_dir) if os.path.isfile(os.path.join(data_dir, f)) and ".csv" in f and f!=OUTPUT_FILE]
     df = None
     for f in files:
         file_path = os.path.join(data_dir, f)
@@ -17,6 +19,6 @@ def union_CSSE_covid19_data_US():
             df = f_df
         else:
             df = pd.concat([df, f_df])
-    df.to_csv(os.path.join(data_dir, 'UTD.csv'), index=False)
-    print('Done!')
+    df.to_csv(os.path.join(data_dir, OUTPUT_FILE), index=False)
+    print("Done!")
     return df
