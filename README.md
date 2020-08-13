@@ -17,3 +17,7 @@ pip install -r requirements.txt
 python main.py -p
 python main.py -f
 ```
+
+## TODO
+- [] Incoporate with Mobility data
+- [] Incoporate with Twitter data
