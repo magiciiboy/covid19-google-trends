@@ -3,6 +3,7 @@ import config
 from utils.covid19 import load_data_states
 from scripts.plot import plot_covid19_cases
 from scripts.preprocess import union_CSSE_covid19_data_US
+from scripts.trends.download import download_trends
 
 if __name__ == "__main__":
     app_parser = argparse.ArgumentParser()
@@ -12,6 +13,10 @@ if __name__ == "__main__":
     app_parser.add_argument("-f", "--plotfigures", action="store_true", help="Plot figures")
     app_parser.add_argument("-v", action="version")
     args = app_parser.parse_args()
+
+    if args.download:
+        print("Download Google Trends data")
+        download_trends()
 
     if args.plotfigures:
         print("Plot figures")
