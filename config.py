@@ -23,86 +23,40 @@ LINE_COLOR_ACTIVE_AFTER = "#95C623"
 # Trends
 TRENDS_DATA_DIR = "%s/trends" % DATA_DIR
 TRENDS_DATA_GROUPS = {
-    'job': ['employment', 'unemployment'],
-    'anxiety': ['agitated', 'dread', 'overwhelming', 'sweat', 'anxiety', 'fear',
-                'fatigue', 'panic', 'sweaty', 'anxious', 'headache', 'phobia', 
-                'worry', 'back pain', 'insomnia', 'restless', 'worst', 'death', 
-                'lightheadedness', 'sensitive', 'distress', 'muscle tension', 
-                'sleep disorder', 'dizziness', 'nervous', 'stomach pain', 'anxious'],
-    'disorder': ['anxiety', 'disorder', 'phobia', 'ptsd', 'anxiety disorder', 
-                 'panic disorder', 'phobias', 'sleeping disorder'],
-    'medication': ['antidepresant', 'klonopin', 'prozac', 'ssris', 'xanax', 'benzo', 
-                   'lexapro', 'ssri', 'valium', 'zoloft'],
-    'suicide': ['alcohol', 'drug', 'gun', 'reckless', 'unbearable', 
-               'death', 'drugs', 'hopeless', 'suicide prevention', 'suicide methods'],
-    'crypto': [],
-    'memory': [],
-    'opioid': ['opioid', 'drug', 'heroin', 'fentanyl', 'pain relievers', 'hydrocodone', 'codeine',
-               'oxycodone', 'morphine']
+    'anxiety': ['anxiety', 'anxious', 'fearful', 'frighten', 'hypervigilant', 'nervous', 'panic', 'phobia',
+                'phobic', 'scared', 'stress', 'tense', 'worried'],
+    'depression': ['depressed', 'depressive', 'dysphoric', 'dysthymic', 'sad', 'tearful'],
+    'suicide': ['suicide', 'suicidal', 'suicidality'],
+    'psychosis': ['psychotic', 'psychosis', 'hallucination', 'delusion', 'paranoid', 'paranoia', 
+                'hallucinate', 'hallucinated', 'delusional'],
+    'violence': ['psychosis', 'violence', 'violent']
 }
 
-FORCE_RELOAD_GROUPS = {
-    'job': False,
+TRENDS_FORCE_RELOAD_GROUPS = {
     'anxiety': False,
-    'disorder': False,
-    'medication': False,
-    'suicide': False,
-    'crypto': False,
-    'memory': False,
-    'opioid': False,
 }
 
 TRENDS_DATA_GROUPS_MAIN_TERM = {
-    'job': 'job',
     'anxiety': 'anxiety',
-    'disorder': 'disorder',
-    'medication': 'anxiety medication',
-    'suicide': 'suicide',
-    'crypto': 'crypto',
-    'memory': 'memory',
-    'opioid': 'opioid',
 }
 
 TRENDS_DATA_GROUPS_EXCLUDED_QUERIES = {
-    'job': ['btc', 'bmw', 'benz', 'binance', 'apple', 'job lot'],
-    'anxiety': ['dog anxiety'],
-    'disorder': [],
-    'medication': ['depression', 'depression and anxiety', 'anxiety disorder', 'dog anxiety'],
-    'suicide': ['suicide squad', 'the suicide squad', 'suicide boys', 'suicide squad 2', 'joker', 
-                'joker suicide squad', 'suicide lyrics', 'suicide squad cast', 
-                'epstein suicide', 'harley quinn', 'suicide number', 'epstein', 
-                'harley quinn suicide squad', 'suicidal'],
-    'crypto': [],
-    'memory': [],
-    'opioid': [],
 }
 
 TRENDS_DATA_GROUPS_REPLACED_QUERIES = {
-    'job': {},
     'anxiety': {
         'symptoms': 'anxiety symptoms',
     },
     'disorder': {
         'symptoms': 'disorder symptoms',
-    },
-    'medication': {},
-    'suicide': [],
-    'crypto': [],
-    'memory': [],
-    'opioid': [],
+    }
 }
 
 
 TRENDS_DATA_GROUPS_EXTENDED_QUERIES = {
-    'job': [],
     'anxiety': [],
-    'disorder': [],
-    'medication': [],
-    'suicide': [],
-    'crypto': [],
-    'memory': [],
-    'opioid': [],
 }
 
-FORCE_REDOWNLOAD_RELATED_TOPICS = False
-FORCE_REDOWNLOAD_TRENDS = False
+TRENDS_FORCE_REDOWNLOAD_RELATED_TOPICS = False
+TRENDS_FORCE_REDOWNLOAD_TRENDS = False
+TRENDS_DOWNLOAD_DELAY_SECONDS = 2

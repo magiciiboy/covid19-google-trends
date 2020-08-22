@@ -16,7 +16,17 @@ if __name__ == "__main__":
 
     if args.download:
         print("Download Google Trends data")
-        download_trends()
+        countries = []
+        for place_key in config.PLACES:
+            place = config.PLACES[place_key]
+            place_country = place["Country"]
+            place_state = place["Abbrev"]
+            print(f"* {place_country} - {place_state}")
+            download_trends(country=place_country, state=place_state)
+            if place_country not in countries:
+                download_trends(country=place_country)
+                countries.append(place_country)
+        print("Done!")
 
     if args.plotfigures:
         print("Plot figures")
