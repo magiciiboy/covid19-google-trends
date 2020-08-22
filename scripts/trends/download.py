@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np                       
 from pytrends.request import TrendReq
 import config
-from scripts.trends import get_data_dir, get_data_filename
+from scripts.trends import get_data_dir, get_data_filename, get_group_queries
 from utils.io import mkdir_if_not_exist
 
 def download_topics():
@@ -63,9 +63,7 @@ def download_topics():
 def download_trends(country="US", state=None):
     pytrend = TrendReq()
     for group in config.TRENDS_DATA_GROUPS:
-        default_queries = config.TRENDS_DATA_GROUPS.get(group, [])
-        extended_queries = config.TRENDS_DATA_GROUPS_EXTENDED_QUERIES.get(group, [])
-        group_queries = sorted(list(np.unique(default_queries + extended_queries)))
+        group_queries = get_group_queries(group)
         delay = False
         for query in group_queries:
             query_file_name = get_data_filename(group, query, country=country, state=state)
@@ -77,7 +75,8 @@ def download_trends(country="US", state=None):
             else:
                 delay = True
                 mkdir_if_not_exist(query_dir)
-                pytrend.build_payload(kw_list=[query], timeframe='today 12-m', geo = 'US', )
+                geo = country if not state else "%s-%s" % (country, state)
+                pytrend.build_payload(kw_list=[query], timeframe="today 12-m", geo = geo, )
                 df = pytrend.interest_over_time()
                 df['date'] = df.index
                 df.to_csv(query_file_path, index=False)
