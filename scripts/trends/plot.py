@@ -7,10 +7,11 @@ from datetime import datetime
 from scripts.trends import get_data_filename, get_group_queries
 from utils.io import mkdir_if_not_exist
 
-COVID_START_DATE = "2020-01-11"
-COVID_START_DATE_X = "2020-01-12"
+# COVID_START_DATE = "2020-01-11"
+COVID_START_DATE = "2020-01-12"
 DATA_START_DATE = "2019-08-01"
 DATA_END_DATE = "2020-08-01"
+SOCIAL_DISTANCE_ORDER_DATE = "2020-03-16"
 
 
 def plot_trends(group, country="US", state=None, place=None):
@@ -44,7 +45,7 @@ def plot_trends(group, country="US", state=None, place=None):
         covid_start_date = COVID_START_DATE
         data_start_date = DATA_START_DATE
         data_end_date = DATA_END_DATE
-        stayhome_order_date = place.get("ClosedFrom") if place else None
+        stayhome_order_date = place.get("ClosedFrom") if place else SOCIAL_DISTANCE_ORDER_DATE
 
         df = df[(df["date"] >= data_start_date) & (df["date"] <= data_end_date)]
         df_before = df[(df["date"] <= covid_start_date)]

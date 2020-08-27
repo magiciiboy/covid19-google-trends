@@ -57,6 +57,14 @@ TRENDS_DATA_GROUPS_REPLACED_QUERIES = {
 
 TRENDS_DATA_GROUPS_EXTENDED_QUERIES = {
     'anxiety': [],
+    'depression': ['quarantine depression'],
+    # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6747463/
+    'suicide': ['suicide', 'suicidal', 'suicide methods', 'how to commit suicide',       # Root terms
+                'commit suicide', 'i want to die', 'suicidality', 'suicide attempt',     # Tran et al. 
+                'suicide forum', 'suicidal ideation', 'suicidal thoughts',
+                'suicide hotline', 'how to hang yourself', 'how to kill yourself',
+                'feeling down'
+    ]
 }
 
 TRENDS_FORCE_REDOWNLOAD_RELATED_TOPICS = False
