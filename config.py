@@ -63,7 +63,10 @@ TRENDS_DATA_GROUPS_EXTENDED_QUERIES = {
                 'commit suicide', 'i want to die', 'suicidality', 'suicide attempt',     # Tran et al. 
                 'suicide forum', 'suicidal ideation', 'suicidal thoughts',
                 'suicide hotline', 'how to hang yourself', 'how to kill yourself',
-                'feeling down'
+                'feeling down', 'crisis text line',
+                'painless suicide', 'suicide by jumping',  # https://sci-hub.tw/10.1371/journal.pone.0183149
+                'suicide help', 'suicide hotline', 'how to overdose',
+                'online suicide', 'suicide chat', 'suicide method'
     ]
 }
 
