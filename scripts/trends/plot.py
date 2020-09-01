@@ -29,6 +29,11 @@ def plot_trends(group, country="US", state=None, place=None):
         shared_yaxes=True
     )
 
+    # Marked Dates
+    covid_start_date = COVID_START_DATE
+    data_start_date = DATA_START_DATE
+    data_end_date = DATA_END_DATE
+
     for idx, query in enumerate(group_queries):
         row = int(idx / n_cols) + 1
         col = idx % n_cols + 1
@@ -42,9 +47,6 @@ def plot_trends(group, country="US", state=None, place=None):
             continue
 
         # Process
-        covid_start_date = COVID_START_DATE
-        data_start_date = DATA_START_DATE
-        data_end_date = DATA_END_DATE
         stayhome_order_date = place.get("ClosedFrom") if place else SOCIAL_DISTANCE_ORDER_DATE
 
         df = df[(df["date"] >= data_start_date) & (df["date"] <= data_end_date)]
