@@ -34,12 +34,16 @@ def plot_trends(group, country="US", state=None, place=None):
     data_start_date = DATA_START_DATE
     data_end_date = DATA_END_DATE
 
+    # Figure variable
+    baseline = 0
+    value_range = [0, 100]
+
     for idx, query in enumerate(group_queries):
         row = int(idx / n_cols) + 1
         col = idx % n_cols + 1
 
         query_file_path = get_data_filename(group, query, country=country, state=state, full=True)
-        df = pd.read_csv(query_file_path)
+        df = pd.read_csv(query_file_path, parse_dates=True)
         count = df["date"].count()
         
         # No data
@@ -60,13 +64,17 @@ def plot_trends(group, country="US", state=None, place=None):
             df["value"] = df[query].apply(lambda x: (x - baseline) / max_value)
             df_before["value"] = df_before[query].apply(lambda x: (x - baseline) / max_value)
             df_after["value"] = df_after[query].apply(lambda x: (x - baseline) / max_value)
+            baseline = 0
+            value_range = [-1, 1]
         else:
+            max_value = df[query].max()
+            baseline = df_before[query].median()
             df["value"] = df[query]
             df_before["value"] = df_before[query]
             df_after["value"] = df_after[query]
 
         # Horizontal line 
-        shape = go.layout.Shape(**{"type": "line","y0":0,"y1": 0,"x0":str(df["date"].values[0]), 
+        shape = go.layout.Shape(**{"type": "line","y0":baseline,"y1": baseline,"x0":str(df["date"].values[0]), 
                     "x1":str(df["date"].values[-1]),"xref":"x1","yref":"y1",
                     "line": {"color": "rgb(200, 200, 200)","width": 1.5}})
         fig.add_shape(shape, row=row, col=col)
@@ -102,14 +110,15 @@ def plot_trends(group, country="US", state=None, place=None):
     # )
 
     # Layout
-    fig.update_layout(title={"text": f"Term: {group}<br> ({data_start_date} - {data_end_date})", "x":0.5, "xanchor": "center"}, 
+    location = f"{country}.{state}" if state else country
+    fig.update_layout(title={"text": f"Term: {group}. Location: {location}<br> ({data_start_date} - {data_end_date})", "x":0.5, "xanchor": "center"}, 
                     height=300 + n_rows * 175, width=250 * n_cols, coloraxis=dict(colorscale="Bluered_r"), 
                     showlegend=False, plot_bgcolor="rgb(255,255,255)", titlefont={"size": 30},
                     margin={"t": 200}
                     # annotations=[caption]
                     )
     fig.update_xaxes(showgrid=False, showticklabels=False, showline=False)
-    fig.update_yaxes(showgrid=False, showticklabels=False, showline=False, range=[-1, 1])
+    fig.update_yaxes(showgrid=False, showticklabels=False, showline=False, range=value_range)
 
     if config.TRENDS_EXPORT_FIGURES:
         # Save

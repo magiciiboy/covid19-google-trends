@@ -41,7 +41,10 @@ TRENDS_DATA_GROUPS = {
         # H:help
         'suicide help', 'suicide helpline', 'suicide help resources', 'suicide help textline',
         'suicide help quotes', 'suicide helpline phone number', 'suicide help near me',
-        # H:hotline
+        # I:intervention
+        'suicide intervention',
+        # L:line
+        
         # O:online
         'suicide online chat',
         'suicide hotline', 'suicide hotline number', 'suicide hotline text',
@@ -95,10 +98,11 @@ TRENDS_DATA_GROUPS_EXTENDED_QUERIES = {
                 'commit suicide', 'i want to die', 'suicidality', 'suicide attempt',     # Tran et al. 
                 'suicide forum', 'suicidal ideation', 'suicidal thoughts',
                 'suicide hotline', 'how to hang yourself', 'how to kill yourself',
-                'feeling down', 'crisis text line',
+                # 'feeling down', 'crisis text line',
                 'painless suicide', 'suicide by jumping',  # https://sci-hub.tw/10.1371/journal.pone.0183149
-                'suicide help', 'suicide hotline', 'how to overdose',
-                'online suicide', 'suicide chat', 'suicide method',
+                'how to overdose', 'suicide method',
+                # 'suicide help', 'suicide hotline',
+                # 'online suicide', 'suicide chat',
                 ],
     'howto': [
         # Kill
@@ -108,7 +112,7 @@ TRENDS_DATA_GROUPS_EXTENDED_QUERIES = {
         'painless ways to kill yourself',
         # 'how to kill yourself wikihow',
         'how to painlessly kill yourself',
-        'how to not kill yourself',
+        # 'how to not kill yourself',
         # 'how to slowly kill yourself',
         # 'how to kill yourself without feeling pain', 
         # 'how to kill yourself without dying',
@@ -131,8 +135,8 @@ TRENDS_DATA_GROUPS_EXTENDED_QUERIES = {
     ]
 }
 
-TRENDS_FORCE_REDOWNLOAD_RELATED_TOPICS = False
-TRENDS_FORCE_REDOWNLOAD_TRENDS = False
+TRENDS_FORCE_REDOWNLOAD_RELATED_TOPICS = True
+TRENDS_FORCE_REDOWNLOAD_TRENDS = True
 TRENDS_DOWNLOAD_DELAY_SECONDS = 2
 TRENDS_EXPORT_FIGURES = True
 
