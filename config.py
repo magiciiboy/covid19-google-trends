@@ -25,13 +25,13 @@ LINE_COLOR_ACTIVE_AFTER = "#95C623"
 TRENDS_DATA_DIR = "%s/trends" % DATA_DIR
 TRENDS_FIGURES_DIR = "%s/trends" % FIGURES_DIR
 TRENDS_DATA_GROUPS = {
-    'anxiety': ['anxiety', 'anxious', 'fearful', 'frighten', 'hypervigilant', 'nervous', 'panic', 'phobia',
-                'phobic', 'scared', 'stress', 'tense', 'worried'],
-    'depression': ['depressed', 'depressive', 'dysphoric', 'dysthymic', 'sad', 'tearful'],
+    # 'anxiety': ['anxiety', 'anxious', 'fearful', 'frighten', 'hypervigilant', 'nervous', 'panic', 'phobia',
+    #             'phobic', 'scared', 'stress', 'tense', 'worried'],
+    # 'depression': ['depressed', 'depressive', 'dysphoric', 'dysthymic', 'sad', 'tearful'],
     'suicide': ['suicide', 'suicidal', 'suicidality', 'suicide prevention', 'suicide methods'],
-    'psychosis': ['psychotic', 'psychosis', 'hallucination', 'delusion', 'paranoid', 'paranoia', 
-                'hallucinate', 'hallucinated', 'delusional'],
-    'violence': ['psychosis', 'violence', 'violent'],
+    # 'psychosis': ['psychotic', 'psychosis', 'hallucination', 'delusion', 'paranoid', 'paranoia', 
+    #             'hallucinate', 'hallucinated', 'delusional'],
+    # 'violence': ['psychosis', 'violence', 'violent'],
     'howto': [],
     'helpline': [
         # A:assessment
@@ -135,9 +135,9 @@ TRENDS_DATA_GROUPS_EXTENDED_QUERIES = {
     ]
 }
 
-TRENDS_FORCE_REDOWNLOAD_RELATED_TOPICS = True
-TRENDS_FORCE_REDOWNLOAD_TRENDS = True
+TRENDS_FORCE_REDOWNLOAD_RELATED_TOPICS = False
+TRENDS_FORCE_REDOWNLOAD_TRENDS = False
 TRENDS_DOWNLOAD_DELAY_SECONDS = 2
 TRENDS_EXPORT_FIGURES = True
 
-TRENDS_APPLY_NORMALIZATION = True
+TRENDS_APPLY_NORMALIZATION = False

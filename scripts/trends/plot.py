@@ -5,13 +5,15 @@ import plotly.graph_objects as go
 from datetime import datetime
 
 from scripts.trends import get_data_filename, get_group_queries
+from scripts.trends.predict import arima_predict
 from utils.io import mkdir_if_not_exist
 
 # COVID_START_DATE = "2020-01-11"
-COVID_START_DATE = "2020-01-12"
+COVID_START_DATE = "2020-06-14" # "2020-01-12"
 DATA_START_DATE = "2019-08-21"
 DATA_END_DATE = "2020-08-21"
 SOCIAL_DISTANCE_ORDER_DATE = "2020-03-16"
+PREDICT_FROM_DATE = COVID_START_DATE # "2020-06-14"
 
 
 def plot_trends(group, country="US", state=None, place=None):
@@ -19,7 +21,7 @@ def plot_trends(group, country="US", state=None, place=None):
     group_queries = get_group_queries(group)
 
     n_queries = len(group_queries)
-    n_cols = 5
+    n_cols = 3
     n_rows = int(n_queries / n_cols) + (1 if n_queries % n_cols else 0)
 
     # Initialize figure with subplots
@@ -45,6 +47,10 @@ def plot_trends(group, country="US", state=None, place=None):
         query_file_path = get_data_filename(group, query, country=country, state=state, full=True)
         df = pd.read_csv(query_file_path, parse_dates=True)
         count = df["date"].count()
+
+        # ARIMA Model
+        if query in df.columns:
+            df = arima_predict(df, from_date=PREDICT_FROM_DATE, value_col=query)
         
         # No data
         if count == 0:
@@ -56,6 +62,7 @@ def plot_trends(group, country="US", state=None, place=None):
         df = df[(df["date"] >= data_start_date) & (df["date"] <= data_end_date)]
         df_before = df[(df["date"] <= covid_start_date)]
         df_after = df[(df["date"] >= covid_start_date)]
+        df_prediction = df[df["is_predicted"] == 1]
 
         # Normalize
         if config.TRENDS_APPLY_NORMALIZATION:
@@ -95,8 +102,13 @@ def plot_trends(group, country="US", state=None, place=None):
                             mode="lines",
                             line=dict(width=1.5, color=config.LINE_COLOR_AFTER), 
                             line_shape="linear") # linear or spline 
+        subplot_prediction = go.Scatter(x=df_prediction["date"], y=df_prediction["prediction"], 
+                            mode="lines",
+                            line=dict(width=2, color=config.LINE_COLOR_BEFORE, dash="dot"), 
+                            line_shape="linear") # linear or spline 
         fig.add_trace(subplot_before, row=row, col=col)
         fig.add_trace(subplot_after, row=row, col=col)
+        fig.add_trace(subplot_prediction, row=row, col=col)
 
     # Caption
     # caption = go.layout.Annotation(
