@@ -60,7 +60,7 @@ def download_topics():
         time.sleep(1)
 
 
-def download_trends(country="US", state=None):
+def download_trends(country="US", state=None, timeframe="2019-01-01 2020-08-31"):
     pytrend = TrendReq()
     for group in config.TRENDS_DATA_GROUPS:
         group_queries = get_group_queries(group)
@@ -76,7 +76,7 @@ def download_trends(country="US", state=None):
                 delay = True
                 mkdir_if_not_exist(query_dir)
                 geo = country if not state else "%s-%s" % (country, state)
-                pytrend.build_payload(kw_list=[query], timeframe="today 5-y", geo = geo, )
+                pytrend.build_payload(kw_list=[query], timeframe=timeframe, geo = geo, ) # "today 5-y"
                 df = pytrend.interest_over_time()
                 df['date'] = df.index
                 df.to_csv(query_file_path, index=False)

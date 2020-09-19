@@ -2,10 +2,13 @@ import numpy as np
 import config
 import requests, json 
 
-def get_group_queries(group):
-    default_queries = config.TRENDS_DATA_GROUPS.get(group, [])
+def get_group_queries(group, only_root=False):
+    root_queries = config.TRENDS_DATA_GROUPS.get(group, [])
     extended_queries = config.TRENDS_DATA_GROUPS_EXTENDED_QUERIES.get(group, [])
-    return sorted(list(np.unique(default_queries + extended_queries)))
+    if only_root:
+        return sorted(list(np.unique(root_queries)))
+    else:
+        return sorted(list(np.unique(root_queries + extended_queries)))
 
 def get_data_dir(group):
     return "%s/%s" % (config.TRENDS_DATA_DIR, group)

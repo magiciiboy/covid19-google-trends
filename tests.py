@@ -4,14 +4,8 @@ from statistics import mean, stdev
 import pandas as pd
 from scripts.trends import get_data_filename, get_group_queries
 
-ROOT_TERMS = ['suicidal', 'suicide methods', 'how to commit suicide',                    # Root terms
-                'commit suicide', 'i want to die', 'suicidality', 'suicide attempt',     # Tran et al. 
-                'suicide forum', 'suicidal ideation', 'suicidal thoughts',
-                'suicide hotline', 'how to hang yourself', 'how to kill yourself',]
-
 group = 'suicide'
-query_terms = get_group_queries(group)
-query_terms = [t for t in query_terms if t in ROOT_TERMS]
+query_terms = get_group_queries(group, only_root=True)
 country = 'US'
 state = None
 
@@ -42,8 +36,8 @@ for query in query_terms:
     # print(f"Total {count} data points of {round(count*7/375)} years")
 
     df2019 = df[(df['date'] >= '2019-03-15') & (df['date'] <= '2019-08-31')]
-    df2020_P1 = df[(df['date'] >= '2020-01-01') & (df['date'] < '2020-03-15')]
-    df2020_P2 = df[(df['date'] >= '2020-03-15') & (df['date'] <= '2020-08-31')]
+    df2020_P1 = df[(df['date'] >= '2020-01-01') & (df['date'] < '2020-03-16')]
+    df2020_P2 = df[(df['date'] >= '2020-03-16') & (df['date'] <= '2020-08-31')]
 
     df2020_P2Early = df[(df['date'] >= '2020-03-15') & (df['date'] < '2020-06-01')]
     df2020_P2Late = df[(df['date'] >= '2020-06-01') & (df['date'] <= '2020-08-31')]
