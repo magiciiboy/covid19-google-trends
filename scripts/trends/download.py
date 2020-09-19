@@ -76,7 +76,7 @@ def download_trends(country="US", state=None):
                 delay = True
                 mkdir_if_not_exist(query_dir)
                 geo = country if not state else "%s-%s" % (country, state)
-                pytrend.build_payload(kw_list=[query], timeframe="today 12-m", geo = geo, )
+                pytrend.build_payload(kw_list=[query], timeframe="today 5-y", geo = geo, )
                 df = pytrend.interest_over_time()
                 df['date'] = df.index
                 df.to_csv(query_file_path, index=False)
