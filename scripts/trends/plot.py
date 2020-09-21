@@ -5,30 +5,36 @@ import plotly.graph_objects as go
 from datetime import datetime
 
 from scripts.trends import get_data_filename, get_group_queries
-from scripts.trends.predict import arima_predict
+from scripts.trends.predict import arima_predict, mean_confidence_interval
 from utils.io import mkdir_if_not_exist
 
 # COVID_START_DATE = "2020-01-11"
-COVID_START_DATE = "2020-05-17" # "2020-01-12"
+COVID_START_DATE = "2020-03-15" # "2020-01-12"
+REOPEN_DATE = "2020-06-09"
+
 DATA_START_DATE = "2020-01-01"
-DATA_END_DATE = "2020-09-11"
+DATA_END_DATE = "2020-08-31"
 SOCIAL_DISTANCE_ORDER_DATE = "2020-03-16"
-PREDICT_FROM_DATE = COVID_START_DATE # "2020-06-14"
+PREDICT_FROM_DATE = REOPEN_DATE
 
 
 def plot_trends(group, country="US", state=None, place=None):
     print(f"* Plotting Google Trends of `{group}` for {country} - {state or 'All'}")
-    group_queries = get_group_queries(group)
+    group_queries = get_group_queries(group, only_root=True)
 
     n_queries = len(group_queries)
     n_cols = 3
     n_rows = int(n_queries / n_cols) + (1 if n_queries % n_cols else 0)
 
+    # Annotations
+    annotations = []
+
     # Initialize figure with subplots
     subplot_titles = ["%s..." % t[:22] if len(t) >= 22 else t for t in group_queries]
     fig = make_subplots(
         rows=n_rows, cols=n_cols, subplot_titles=subplot_titles,
-        shared_yaxes=True
+        shared_yaxes=True,
+        print_grid=True
     )
 
     # Marked Dates
@@ -50,7 +56,10 @@ def plot_trends(group, country="US", state=None, place=None):
 
         # ARIMA Model
         if query in df.columns:
-            df = arima_predict(df, from_date=PREDICT_FROM_DATE, value_col=query)
+            print("Query: ", query)
+            # get_arima_params(df[query])
+            df, model = arima_predict(df, from_date=PREDICT_FROM_DATE, value_col=query)
+            # return False
         
         # No data
         if count == 0:
@@ -80,6 +89,26 @@ def plot_trends(group, country="US", state=None, place=None):
             df_before["value"] = df_before[query]
             df_after["value"] = df_after[query]
 
+        # Compute difference
+        query_text = "%s..." % query[:22] if len(query) >= 22 else query
+        actual_mean, actual_meanCI95min, actual_meanCI95max = mean_confidence_interval(df_prediction[query])
+        predict_mean = df_prediction["prediction"].mean()
+        diff = round(100 * (actual_mean - predict_mean) / predict_mean, 1)
+        diffCI95min = round(100 * (actual_meanCI95min - predict_mean) / predict_mean, 1)
+        diffCI95max = round(100 * (actual_meanCI95max - predict_mean) / predict_mean, 1)
+        x_date = list(df['date'])[int(df["date"].count()/2)]
+        diff_annot = go.layout.Annotation(
+            text=f'<b>{query_text}</b><br><sub><b style="color:{config.COLOR_UPTREND if diff >= 0 else config.COLOR_DOWNTREND}">{diff}%</b>; 95%CI, [{diffCI95min}%, {diffCI95max}%]</sub>',
+            showarrow=False, xanchor="center", yanchor="top", 
+            x=x_date,
+            y=0.0,
+            xshift=0,
+            yshift=-5,
+            xref=f"x{'' if idx == 0 else idx + 1}",
+            yref=f"y{'' if idx == 0 else idx + 1}"
+        )
+        annotations.append(diff_annot)
+
         # Horizontal line 
         shape = go.layout.Shape(**{"type": "line","y0":baseline,"y1": baseline,"x0":str(df["date"].values[0]), 
                     "x1":str(df["date"].values[-1]),"xref":"x1","yref":"y1",
@@ -104,11 +133,13 @@ def plot_trends(group, country="US", state=None, place=None):
                             line_shape="linear") # linear or spline 
         subplot_prediction = go.Scatter(x=df_prediction["date"], y=df_prediction["prediction"], 
                             mode="lines",
-                            line=dict(width=2, color=config.LINE_COLOR_BEFORE, dash="dot"), 
+                            line=dict(width=2, color=config.LINE_COLOR_AFTER, dash="dot"), 
                             line_shape="linear") # linear or spline 
         fig.add_trace(subplot_before, row=row, col=col)
         fig.add_trace(subplot_after, row=row, col=col)
         fig.add_trace(subplot_prediction, row=row, col=col)
+
+        # break
 
     # Caption
     # caption = go.layout.Annotation(
@@ -123,12 +154,16 @@ def plot_trends(group, country="US", state=None, place=None):
 
     # Layout
     location = f"{country}.{state}" if state else country
-    fig.update_layout(title={"text": f"Term: {group}. Location: {location}<br> ({data_start_date} - {data_end_date})", "x":0.5, "xanchor": "center"}, 
-                    height=300 + n_rows * 175, width=250 * n_cols, coloraxis=dict(colorscale="Bluered_r"), 
+    fig_title = f"""Term: {group}. Location: {location}<br>
+    <span style="font-size: 14px;line-height:1">Period: {data_start_date} - {data_end_date}
+    <br>Lockdown Period: {covid_start_date} - {PREDICT_FROM_DATE}</span>"""
+    fig.update_layout(title={"text": fig_title, "x":0.5, "xanchor": "center"}, 
+                    title_font=dict(size=12),
+                    height=175 + n_rows * 175, width=250 * n_cols, coloraxis=dict(colorscale="Bluered_r"), 
                     showlegend=False, plot_bgcolor="rgb(255,255,255)", titlefont={"size": 30},
-                    margin={"t": 200}
-                    # annotations=[caption]
-                    )
+                    margin={"t": 200},
+                    annotations=annotations
+                )
     fig.update_xaxes(showgrid=False, showticklabels=False, showline=False)
     fig.update_yaxes(showgrid=False, showticklabels=False, showline=False, range=value_range)
 

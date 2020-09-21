@@ -21,6 +21,9 @@ LINE_COLOR_AFTER = "#9D433C"
 LINE_COLOR_ACTIVE_BEFORE = "#1365B3"
 LINE_COLOR_ACTIVE_AFTER = "#95C623"
 
+COLOR_UPTREND = "#009000"
+COLOR_DOWNTREND = "#9D433C"
+
 # Trends
 TRENDS_DATA_DIR = "%s/trends" % DATA_DIR
 TRENDS_FIGURES_DIR = "%s/trends" % FIGURES_DIR
@@ -62,7 +65,7 @@ TRENDS_DATA_GROUPS = {
         'suicidal thoughts',
         'suicide hotline',
         'how to hang yourself',
-        'how to kill yourself',
+        'how to kill yourself -ark -minecraft -rust',
         # Gunn et al.
         'how to suicide',
         'suicide prevention',

@@ -27,6 +27,7 @@ if __name__ == "__main__":
             if place_country not in countries:
                 download_trends(country=place_country)
                 countries.append(place_country)
+            break
         print("Done!")
 
     if args.plotfigures:
@@ -46,6 +47,7 @@ if __name__ == "__main__":
                     if place_country not in countries:
                         plot_trends(group, country=place_country)
                         countries.append(place_country)
+                    break
 
     if args.preprocess:
         df = union_CSSE_covid19_data_US()
