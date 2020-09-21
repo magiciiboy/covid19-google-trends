@@ -35,13 +35,13 @@ TRENDS_DATA_GROUPS = {
         'signs of depression', 
         'depression -economic -tropical -great -unemployment -headed -the -recession -2020', 
         'symptoms of depression',
-        'baby blues', 
-        'postnatal depression',
+        'baby blues -cartoon -dolly -comic -comics -bbq -movie -nashville -lyrics -shark -back -bar -hey', 
         'feeling down',
         'depression and anxiety',
         'what is depression -recession -great -economic', 
-        'depressed',
-        'post natal depression',
+        'depressed -scooby -anime -cartoon -wallpaper -backgrounds -wallpapers -cat -dog -fish -cats -dogs',
+        # 'postnatal depression',
+        'postnatal depression + post natal depression',
         'clinical depression',
         'manic depression', 
         'how to help depression',
@@ -77,44 +77,35 @@ TRENDS_DATA_GROUPS = {
     # 'howto': [],
     'helpline': [
         # A:assessment
-        'suicide assessment',
+        'suicide assessment + suicide risk assessment + suicide safety assessment + suicide safety plan app',
         # C:chat
-        'suicide chat', 'suicide club', 'suicide chat room',
+        'suicide chat + suicide chat room + suicide online chat',
+        'suicide club + suicide group',
         # H:help
-        'suicide help', 'suicide helpline', 
-        # 'suicide help resources',
-        'suicide help quotes', 'suicide help near me',
+        'suicide help + suicide help near me', 'suicide helpline', 
         # I:intervention
         'suicide intervention',
         # L:line
         
         # O:online
-        'suicide online chat',
         'suicide hotline', 'suicide hotline number', 'suicide hotline text',
         # P:prevention
-        'suicide prevention', 'suicide prevention text', 'suicide postvention',
+        'suicide prevention + suicide postvention', 'suicide prevention text',
         # Q:questionnaire
         # 'suicide questionnaire',
-        'suicide questions', 'suicide quotes',
-        # R:risk, resources
-        'suicide risk assessment', 'suicide resources',
+        'suicide questions',
+        # R:risk, resources, 
+        'suicide resources + suicide help resources',
         # S:support,safe,solution,sympathy (a,e,i,o,u,y)
-        'suicide support groups', 
-        'suicide support', 'suicide survivor',
-        'suicide survivor quotes',
-        # 'suicide support groups online', 'suicide survivor tattoo', 'suicide survivor support group', 
-        'suicide support line',
-        # 'suicide safety plan app',
-        'suicide safety assessment',
-        'suicide solution', 'suicide sympathy',
+        'suicide support + suicide support groups + suicide support groups online + suicide support line', 
+        'suicide survivor + suicide survivor tattoo + suicide survivor support group',
+        'suicide solution', 'suicide quotes + suicide help quotes + suicide sympathy + suicide survivor quotes',
         # T:text
-        'suicide text line', 'suicide text',
-        # 'suicide text hotline', 'suicide textline',
+        'suicide text line + suicide text + suicide text hotline',
         # Y:yellow
         # 'suicide yellow ribbon',
         # Z:zero
-        'suicide zero',  
-        # 'suicide zero alliance'
+        'suicide zero + suicide zero alliance', 
     ]
 }
 
