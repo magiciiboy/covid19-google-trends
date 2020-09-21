@@ -64,6 +64,7 @@ TRENDS_DATA_GROUPS = {
         'suicidal ideation',
         'suicidal thoughts',
         'suicide hotline',
+        'suicide helpline',
         'how to hang yourself',
         'how to kill yourself -ark -minecraft -rust',
         # Gunn et al.
@@ -74,40 +75,47 @@ TRENDS_DATA_GROUPS = {
     #             'hallucinate', 'hallucinated', 'delusional'],
     # 'violence': ['psychosis', 'violence', 'violent'],
     # 'howto': [],
-    # 'helpline': [
-    #     # A:assessment
-    #     'suicide assessment',
-    #     # C:chat
-    #     'suicide chat', 'suicide club', 'suicide chat room',
-    #     # H:help
-    #     'suicide help', 'suicide helpline', 'suicide help resources', 'suicide help textline',
-    #     'suicide help quotes', 'suicide helpline phone number', 'suicide help near me',
-    #     # I:intervention
-    #     'suicide intervention',
-    #     # L:line
+    'helpline': [
+        # A:assessment
+        'suicide assessment',
+        # C:chat
+        'suicide chat', 'suicide club', 'suicide chat room',
+        # H:help
+        'suicide help', 'suicide helpline', 
+        # 'suicide help resources',
+        'suicide help quotes', 'suicide help near me',
+        # I:intervention
+        'suicide intervention',
+        # L:line
         
-    #     # O:online
-    #     'suicide online chat',
-    #     'suicide hotline', 'suicide hotline number', 'suicide hotline text',
-    #     # P:prevention
-    #     'suicide prevention', 'suicide prevention text', 'suicide postvention',
-    #     # Q:questionnaire
-    #     'suicide questionnaire', 'suicide questions', 'suicide quotes',
-    #     # R:risk, resources
-    #     'suicide risk assessment', 'suicide resources',
-    #     # S:support,safe,solution,sympathy (a,e,i,o,u,y)
-    #     'suicide support groups', 'suicide support', 'suicide survivor', 'suicide survivor tattoo',
-    #     'suicide survivor quotes', 'suicide survivor support group', 'suicide support groups online',
-    #     'suicide support line', 'suicide survivor ribbon',
-    #     'suicide safer home app', 'suicide safety plan app', 'suicide safety assessment',
-    #     'suicide solution', 'suicide sympathy',
-    #     # T:text
-    #     'suicide text line', 'suicide text hotline', 'suicide text',
-    #     # Y:yellow
-    #     'suicide yellow ribbon',
-    #     # Z:zero
-    #     'suicide zero', 'suicide zero alliance'
-    # ]
+        # O:online
+        'suicide online chat',
+        'suicide hotline', 'suicide hotline number', 'suicide hotline text',
+        # P:prevention
+        'suicide prevention', 'suicide prevention text', 'suicide postvention',
+        # Q:questionnaire
+        # 'suicide questionnaire',
+        'suicide questions', 'suicide quotes',
+        # R:risk, resources
+        'suicide risk assessment', 'suicide resources',
+        # S:support,safe,solution,sympathy (a,e,i,o,u,y)
+        'suicide support groups', 
+        'suicide support', 'suicide survivor',
+        'suicide survivor quotes',
+        # 'suicide support groups online', 'suicide survivor tattoo', 'suicide survivor support group', 
+        'suicide support line',
+        # 'suicide safety plan app',
+        'suicide safety assessment',
+        'suicide solution', 'suicide sympathy',
+        # T:text
+        'suicide text line', 'suicide text',
+        # 'suicide text hotline', 'suicide textline',
+        # Y:yellow
+        # 'suicide yellow ribbon',
+        # Z:zero
+        'suicide zero',  
+        # 'suicide zero alliance'
+    ]
 }
 
 TRENDS_FORCE_RELOAD_GROUPS = {

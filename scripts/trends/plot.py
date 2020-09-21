@@ -90,7 +90,7 @@ def plot_trends(group, country="US", state=None, place=None):
             df_after["value"] = df_after[query]
 
         # Compute difference
-        query_text = "%s..." % query[:22] if len(query) >= 22 else query
+        query_text = "%s..." % query[:22] if len(query) > 22 else query
         actual_mean, actual_meanCI95min, actual_meanCI95max = mean_confidence_interval(df_prediction[query])
         predict_mean = df_prediction["prediction"].mean()
         diff = round(100 * (actual_mean - predict_mean) / predict_mean, 1)
