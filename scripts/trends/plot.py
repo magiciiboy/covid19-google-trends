@@ -46,6 +46,9 @@ def plot_trends(group, country="US", state=None, place=None):
     baseline = 0
     value_range = [0, 100]
 
+    # Model params
+    model_params = []
+
     for idx, query in enumerate(group_queries):
         row = int(idx / n_cols) + 1
         col = idx % n_cols + 1
@@ -59,6 +62,8 @@ def plot_trends(group, country="US", state=None, place=None):
             print("Query: ", query)
             # get_arima_params(df[query])
             df, model = arima_predict(df, from_date=PREDICT_FROM_DATE, value_col=query)
+            params = model.get_params()
+            model_params.append([query, str(params["order"])])
             # return False
         
         # No data
@@ -166,6 +171,11 @@ def plot_trends(group, country="US", state=None, place=None):
                 )
     fig.update_xaxes(showgrid=False, showticklabels=False, showline=False)
     fig.update_yaxes(showgrid=False, showticklabels=False, showline=False, range=value_range)
+
+    # Store model parameters
+    mkdir_if_not_exist(config.TRENDS_OUTPUT_DIR)
+    df_params = pd.DataFrame(model_params, columns=["Query", "Order"])
+    df_params.to_csv("%s/ARIMA_orders_%s.csv" % (config.TRENDS_OUTPUT_DIR, group), index=False)
 
     if config.TRENDS_EXPORT_FIGURES:
         # Save

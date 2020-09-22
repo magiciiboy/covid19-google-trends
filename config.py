@@ -27,6 +27,7 @@ COLOR_DOWNTREND = "#9D433C"
 # Trends
 TRENDS_DATA_DIR = "%s/trends" % DATA_DIR
 TRENDS_FIGURES_DIR = "%s/trends" % FIGURES_DIR
+TRENDS_OUTPUT_DIR = "%s/output" % FIGURES_DIR
 TRENDS_DATA_GROUPS = {
     # 'anxiety': ['anxiety', 'anxious', 'fearful', 'frighten', 'hypervigilant', 'nervous', 'panic', 'phobia',
     #             'phobic', 'scared', 'stress', 'tense', 'worried'],
@@ -80,7 +81,7 @@ TRENDS_DATA_GROUPS = {
         'suicide assessment + suicide risk assessment + suicide safety assessment + suicide safety plan app',
         # C:chat
         'suicide chat + suicide chat room + suicide online chat',
-        'suicide club + suicide group',
+        'suicide club + suicide group + suicide forum',
         # H:help
         'suicide help + suicide help near me', 'suicide helpline', 
         # I:intervention
