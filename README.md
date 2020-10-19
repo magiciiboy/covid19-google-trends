@@ -18,6 +18,7 @@ pip install -r requirements.txt
 ```
 
 ## Start with Docker Compose
+Library `pmdarima` requires system libraries which are not available on some OS. Therefore, I created a docker image to let contributors run this project with OS independent.
 ### Run Docker Compose
 ```bash
 docker-compose up
@@ -33,6 +34,7 @@ python main.py -d
 ```
 
 ### Plot figures
+Only available in Docker image
 ```bash
 python main.py -f
 ```
