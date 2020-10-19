@@ -34,7 +34,7 @@ python main.py -d
 ```
 
 ### Plot figures
-Only available in Docker image
+Only available on Docker image enviroment.
 ```bash
 python main.py -f
 ```
