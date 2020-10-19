@@ -1,32 +1,39 @@
 # COVID19 and Associated Trends
 
 ## Prerequisits
-Python >= 3.8 
+- Python >= 3.8
+- Docker Compose
+- VSCode Server
 
-## Install
-### Install libraries
+## Start with VirtualEnv
+### Initiate environment
 ```bash
-# For MacOS
-brew install openblas
-brew install lapack
-
-export DYLD_LIBRARY_PATH=/Users/magicii/git/uthealth/covid19-google-trends/ENV/lib:/usr/local/lib:/usr/lib:/usr/local/opt/openblas/lib
-```
-### Install VirtualEnv
-
-```bash
-pip install virtualenv
 virtualenv ./ENV
 . ./ENV/bin/activate
 ```
+
 ### Install packages
 ```bash
 pip install -r requirements.txt
 ```
 
-## Run
+## Start with Docker Compose
+### Run Docker Compose
 ```bash
-python main.py -p
+docker-compose up
+```
+
+### Open VSCode in browser
+Open http://localhost:8989/ in your browser to access to VSCode in Docker instance.
+
+## Analytic Commands
+### Download new data from Google Trends
+```bash
+python main.py -d
+```
+
+### Plot figures
+```bash
 python main.py -f
 ```
 
