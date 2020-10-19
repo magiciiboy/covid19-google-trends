@@ -18,7 +18,14 @@ SOCIAL_DISTANCE_ORDER_DATE = "2020-03-16"
 PREDICT_FROM_DATE = REOPEN_DATE
 
 
-def plot_trends(group, country="US", state=None, place=None):
+def plot_trends(group, country="US", state=None, place=None, predictive_method="ARIMA"):
+    """ Plot trends of queries
+    @param group: Query group
+    @param country: Country code
+    @param state: State code
+    @param place: Place data in dictionary
+    @param predictive_method: ARIMA or GAM
+    """
     print(f"* Plotting Google Trends of `{group}` for {country} - {state or 'All'}")
     group_queries = get_group_queries(group, only_root=True)
 

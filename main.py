@@ -20,10 +20,12 @@ if __name__ == "__main__":
         countries = []
         for place_key in config.PLACES:
             place = config.PLACES[place_key]
+            print(place)
             place_country = place["Country"]
             place_state = place["Abbrev"]
             print(f"* {place_country} - {place_state}")
-            download_trends(country=place_country, state=place_state)
+            if place_state != place_country:
+                download_trends(country=place_country, state=place_state)
             if place_country not in countries:
                 download_trends(country=place_country)
                 countries.append(place_country)
@@ -43,7 +45,8 @@ if __name__ == "__main__":
                     place = config.PLACES[place_key]
                     place_country = place["Country"]
                     place_state = place["Abbrev"]
-                    plot_trends(group, country=place_country, state=place_state, place=place)
+                    if place_state != place_country:
+                        plot_trends(group, country=place_country, state=place_state, place=place)
                     if place_country not in countries:
                         plot_trends(group, country=place_country)
                         countries.append(place_country)

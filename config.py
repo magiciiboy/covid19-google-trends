@@ -50,6 +50,18 @@ TRENDS_DATA_GROUPS = {
         'postpartum depression',
         'how to deal with depression -economic -great -recession'
     ],
+    # 'depression_symptoms': [
+    #     'feeling sad',
+    #     'feeling tired',
+    #     'lack of interest',
+    #     'suicidal ideation',
+    #     'low motivation',
+    #     'feeling guilty',
+    #     'feeling hopeless',
+    #     'feeling helpless',
+    #     'feeling low energy',
+    #     'lose appetite',
+    # ],
     'suicide': [
         # Root terms
         'suicide -squad', 
