@@ -1,2 +1,2 @@
 Country,State,Abbrev,ClosedFrom,ClosedTo,ExtendedClosedTo,OrderType,Population
-US,Arizona,AZ,2020-03-31,2020-04-30,2020-05-15,Stay-at-home,7278717
+US,US,US,2020-03-31,2020-04-30,2020-05-15,Stay-at-home,7278717

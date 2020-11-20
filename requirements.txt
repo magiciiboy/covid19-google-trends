@@ -2,6 +2,7 @@ autocomplete==0.0.104
 bottle==0.12.18
 certifi==2020.6.20
 chardet==3.0.4
+chart-studio==1.0.0
 Cython==0.29.17
 idna==2.10
 joblib==0.16.0

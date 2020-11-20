@@ -1,5 +1,6 @@
 import os
 from utils.places import load_places
+from typing import Dict, Tuple, List
 
 ROOT_DIR = os.getcwd()
 
@@ -63,27 +64,37 @@ TRENDS_DATA_GROUPS = {
     #     'lose appetite',
     # ],
     'suicide': [
-        # Root terms
-        'suicide -squad', 
-        'suicidal', 
-        'suicide methods + suicide method', 
-        'how to commit suicide',
-        # Tran et al. 
-        'commit suicide', 
-        'i want to die', 
-        'suicidality', 
-        'suicide attempt',     
         'suicide forum',
+        'i want to die', 
+        
+        'suicidal',     
+        'suicide methods + suicide method', 
         'suicidal ideation',
-        'suicidal thoughts',
         'suicide hotline',
         'suicide helpline',
-        'how to hang yourself',
-        'how to kill yourself -ark -minecraft -rust',
-        # Gunn et al.
-        'how to suicide',
-        'suicide prevention',
     ],
+    # 'suicide_all': [
+        # Root terms
+        # 'suicide -squad', 
+        # 'suicidal', 
+        # 'suicide methods + suicide method', 
+        # 'how to commit suicide',
+        # Tran et al. 
+        # 'commit suicide', 
+        # 'i want to die', 
+        # 'suicidality', 
+        # 'suicide attempt',     
+        # 'suicide forum',
+        # 'suicidal ideation',
+        # 'suicidal thoughts',
+        # 'suicide hotline',
+        # 'suicide helpline',
+        # 'how to hang yourself',
+        # 'how to kill yourself -ark -minecraft -rust',
+        # Gunn et al.
+        # 'how to suicide',
+        # 'suicide prevention',
+    # ],
     # 'psychosis': ['psychotic', 'psychosis', 'hallucination', 'delusion', 'paranoid', 'paranoia', 
     #             'hallucinate', 'hallucinated', 'delusional'],
     # 'violence': ['psychosis', 'violence', 'violent'],
@@ -190,3 +201,6 @@ TRENDS_DOWNLOAD_DELAY_SECONDS = 2
 TRENDS_EXPORT_FIGURES = True
 
 TRENDS_APPLY_NORMALIZATION = False
+
+PLOTLY_ACCOUNT = "magicii"
+PLOTLY_APIKEY = "p8mRTOtzfBxRIE77Bnxx"

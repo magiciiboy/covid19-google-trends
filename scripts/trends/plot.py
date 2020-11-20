@@ -1,7 +1,9 @@
 import config
 import pandas as pd
+import chart_studio
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+import chart_studio.plotly as py
 from datetime import datetime
 
 from scripts.trends import get_data_filename, get_group_queries
@@ -11,6 +13,7 @@ from utils.io import mkdir_if_not_exist
 # COVID_START_DATE = "2020-01-11"
 COVID_START_DATE = "2020-03-15" # "2020-01-12"
 REOPEN_DATE = "2020-06-09"
+REOPEN_DATE_MINUS_1 = "2020-06-07"
 
 DATA_START_DATE = "2020-01-01"
 DATA_END_DATE = "2020-08-31"
@@ -46,6 +49,8 @@ def plot_trends(group, country="US", state=None, place=None, predictive_method="
 
     # Marked Dates
     covid_start_date = COVID_START_DATE
+    reopen_date = REOPEN_DATE
+    reopen_date_minus_1 = REOPEN_DATE_MINUS_1
     data_start_date = DATA_START_DATE
     data_end_date = DATA_END_DATE
 
@@ -59,6 +64,7 @@ def plot_trends(group, country="US", state=None, place=None, predictive_method="
     for idx, query in enumerate(group_queries):
         row = int(idx / n_cols) + 1
         col = idx % n_cols + 1
+        showlegend = idx == 0
 
         query_file_path = get_data_filename(group, query, country=country, state=state, full=True)
         df = pd.read_csv(query_file_path, parse_dates=True)
@@ -81,8 +87,8 @@ def plot_trends(group, country="US", state=None, place=None, predictive_method="
         stayhome_order_date = place.get("ClosedFrom") if place else SOCIAL_DISTANCE_ORDER_DATE
 
         df = df[(df["date"] >= data_start_date) & (df["date"] <= data_end_date)]
-        df_before = df[(df["date"] <= covid_start_date)]
-        df_after = df[(df["date"] >= covid_start_date)]
+        df_before = df[(df["date"] <= reopen_date)]
+        df_after = df[(df["date"] >= reopen_date_minus_1)]
         df_prediction = df[df["is_predicted"] == 1]
 
         # Normalize
@@ -102,7 +108,7 @@ def plot_trends(group, country="US", state=None, place=None, predictive_method="
             df_after["value"] = df_after[query]
 
         # Compute difference
-        query_text = "%s..." % query[:22] if len(query) > 22 else query
+        query_text = query.split("+")[0].strip() + " + ..." if "+" in query else query
         actual_mean, actual_meanCI95min, actual_meanCI95max = mean_confidence_interval(df_prediction[query])
         predict_mean = df_prediction["prediction"].mean()
         diff = round(100 * (actual_mean - predict_mean) / predict_mean, 1)
@@ -121,9 +127,17 @@ def plot_trends(group, country="US", state=None, place=None, predictive_method="
         )
         annotations.append(diff_annot)
 
+        # Lockdown period
+        max_y = max(df[query].max(), abs(df[query].min()))
+        min_y = -max_y
+        shape_lockdown = go.layout.Shape(**{"type": "rect","y0":100,"y1": -100,"x0":COVID_START_DATE, 
+                    "x1":REOPEN_DATE,"xref":"x1","yref":"y1","layer":"below",
+                    "fillcolor":"#eeeeee", "line":dict(width=0), "line_width": 0})
+        fig.add_shape(shape_lockdown, row=row, col=col)
+
         # Horizontal line 
         shape = go.layout.Shape(**{"type": "line","y0":baseline,"y1": baseline,"x0":str(df["date"].values[0]), 
-                    "x1":str(df["date"].values[-1]),"xref":"x1","yref":"y1",
+                    "x1":str(df["date"].values[-1]),"xref":"x1","yref":"y1","layer":"below",
                     "line": {"color": "rgb(200, 200, 200)","width": 1.5}})
         fig.add_shape(shape, row=row, col=col)
 
@@ -136,20 +150,26 @@ def plot_trends(group, country="US", state=None, place=None, predictive_method="
 
         # Plot
         subplot_before = go.Scatter(x=df_before["date"], y=df_before["value"], 
-                            mode="lines",
+                            mode="lines", name="Before Lockdown",
                             line=dict(width=1, color=config.LINE_COLOR_BEFORE), 
-                            line_shape="linear") # linear or spline 
+                            line_shape="linear", showlegend=False) # linear or spline 
         subplot_after = go.Scatter(x=df_after["date"], y=df_after["value"], 
-                            mode="lines",
+                            mode="lines", name="Actual Queries",
                             line=dict(width=1.5, color=config.LINE_COLOR_AFTER), 
-                            line_shape="linear") # linear or spline 
+                            line_shape="linear", showlegend=showlegend) # linear or spline 
         subplot_prediction = go.Scatter(x=df_prediction["date"], y=df_prediction["prediction"], 
-                            mode="lines",
-                            line=dict(width=2, color=config.LINE_COLOR_AFTER, dash="dot"), 
-                            line_shape="linear") # linear or spline 
+                            mode="lines", name="Expected Queries",
+                            line=dict(width=2, color=config.LINE_COLOR_BEFORE, dash="dot"), 
+                            line_shape="linear", showlegend=showlegend) # linear or spline 
+        subplot_lockdown_legend = go.Bar(x=[reopen_date,], y=[0,], 
+                            name="Early Lockdown Phase", 
+                            showlegend=showlegend,
+                            marker_color="#eeeeee")
         fig.add_trace(subplot_before, row=row, col=col)
         fig.add_trace(subplot_after, row=row, col=col)
         fig.add_trace(subplot_prediction, row=row, col=col)
+        if idx == 0:
+            fig.add_trace(subplot_lockdown_legend, row=row, col=col)
 
         # break
 
@@ -165,24 +185,40 @@ def plot_trends(group, country="US", state=None, place=None, predictive_method="
     # )
 
     # Layout
-    location = f"{country}.{state}" if state else country
-    fig_title = f"""Term: {group}. Location: {location}<br>
-    <span style="font-size: 14px;line-height:1">Period: {data_start_date} - {data_end_date}
-    <br>Lockdown Period: {covid_start_date} - {PREDICT_FROM_DATE}</span>"""
+    # location = f"{country}.{state}" if state else country
+    # fig_title = f"""Term: {group}. Location: {location}<br>
+    # <span style="font-size: 14px;line-height:1">Period: {data_start_date} - {data_end_date}
+    # <br>Lockdown Period: {covid_start_date} - {PREDICT_FROM_DATE}</span>"""
+    fig_title = ""
     fig.update_layout(title={"text": fig_title, "x":0.5, "xanchor": "center"}, 
                     title_font=dict(size=12),
-                    height=175 + n_rows * 175, width=250 * n_cols, coloraxis=dict(colorscale="Bluered_r"), 
-                    showlegend=False, plot_bgcolor="rgb(255,255,255)", titlefont={"size": 30},
-                    margin={"t": 200},
-                    annotations=annotations
+                    height=50 + n_rows * 175, width=250 * n_cols, coloraxis=dict(colorscale="Bluered_r"), 
+                    showlegend=True, plot_bgcolor="rgb(255,255,255)", titlefont={"size": 30},
+                    margin={"t": 50},
+                    annotations=annotations,
+                    legend=dict(
+                        orientation="v",
+                        yanchor="bottom",
+                        y=0,
+                        xanchor="right",
+                        x=1,
+                        bgcolor="white",
+                        bordercolor="#333",
+                        borderwidth=1
+                    )
                 )
     fig.update_xaxes(showgrid=False, showticklabels=False, showline=False)
-    fig.update_yaxes(showgrid=False, showticklabels=False, showline=False, range=value_range)
+    fig.update_yaxes(showgrid=False, showticklabels=False, showline=True, range=value_range)
 
     # Store model parameters
     mkdir_if_not_exist(config.TRENDS_OUTPUT_DIR)
     df_params = pd.DataFrame(model_params, columns=["Query", "Order"])
     df_params.to_csv("%s/ARIMA_orders_%s.csv" % (config.TRENDS_OUTPUT_DIR, group), index=False)
+
+    # Create online URL
+    chart_studio.tools.set_credentials_file(username=config.PLOTLY_ACCOUNT, api_key=config.PLOTLY_APIKEY)
+    url = py.iplot(fig, filename=group, file_id=group)
+    print("URL:", url)
 
     if config.TRENDS_EXPORT_FIGURES:
         # Save
