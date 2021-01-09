@@ -1,6 +1,7 @@
 import os
 from utils.places import load_places
 from typing import Dict, Tuple, List
+import chart_studio
 
 ROOT_DIR = os.getcwd()
 
@@ -204,3 +205,11 @@ TRENDS_APPLY_NORMALIZATION = False
 
 PLOTLY_ACCOUNT = "magicii"
 PLOTLY_APIKEY = "p8mRTOtzfBxRIE77Bnxx"
+
+chart_studio.tools.set_credentials_file(
+    username=PLOTLY_ACCOUNT, 
+    api_key=PLOTLY_APIKEY
+)
+chart_studio.tools.set_config_file(
+    plotly_domain="https://plotly.com"
+)

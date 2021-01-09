@@ -216,9 +216,8 @@ def plot_trends(group, country="US", state=None, place=None, predictive_method="
     df_params.to_csv("%s/ARIMA_orders_%s.csv" % (config.TRENDS_OUTPUT_DIR, group), index=False)
 
     # Create online URL
-    chart_studio.tools.set_credentials_file(username=config.PLOTLY_ACCOUNT, api_key=config.PLOTLY_APIKEY)
     url = py.iplot(fig, filename=group, file_id=group)
-    print("URL:", url)
+    print("URL:", url.src)
 
     if config.TRENDS_EXPORT_FIGURES:
         # Save

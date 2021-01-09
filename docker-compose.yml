@@ -6,4 +6,4 @@ services:
       - "8989:8989"
     volumes: 
       - .:/trends
-      - ./.credentials:/root/.plotly/.credentials
+      - ./.plotly:/root/.plotly
